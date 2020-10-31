@@ -43,5 +43,7 @@ trigger:
   image: registry.gitlab.com/les-connecteurs/docker/alpine
   script:
     - "curl -X POST -F token=$TRIGGER_TOKEN_OPENDKIM -F ref=master https://gitlab.com/api/v4/projects/18276930/trigger/pipeline"
+    - "curl -X POST -F token=$TRIGGER_TOKEN_POSTFIX -F ref=master https://gitlab.com/api/v4/projects/17429911/trigger/pipeline"
+    - "curl -X POST -F token=$TRIGGER_TOKEN_CYRUS -F ref=master https://gitlab.com/api/v4/projects/17445676/trigger/pipeline"
   only:
     - master
