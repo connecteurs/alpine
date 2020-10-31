@@ -1,5 +1,6 @@
 stages:
   - build
+  - build-others
   - pipelines-trigger
 
 build-latest:
@@ -38,9 +39,27 @@ build-branch:
   except:
     - master
 
+build-curl:
+  stage: build-others
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - |
+      /kaniko/executor \
+        --context $CI_PROJECT_DIR/curl \
+        --dockerfile $CI_PROJECT_DIR/curl/Dockerfile \
+        --destination $CI_REGISTRY_IMAGE/curl \
+        --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" \
+        --build-arg "COMMIT=$CI_COMMIT_SHA" \
+        --build-arg "VERSION=$CI_COMMIT_REF_SLUG"
+  only:
+    - master
+
 trigger:
   stage: pipelines-trigger
-  image: registry.gitlab.com/les-connecteurs/docker/alpine
+  image: registry.gitlab.com/les-connecteurs/docker/alpine/curl
   script:
     - "curl -X POST -F token=$TRIGGER_TOKEN_OPENDKIM -F ref=master https://gitlab.com/api/v4/projects/18276930/trigger/pipeline"
     - "curl -X POST -F token=$TRIGGER_TOKEN_POSTFIX -F ref=master https://gitlab.com/api/v4/projects/17429911/trigger/pipeline"
