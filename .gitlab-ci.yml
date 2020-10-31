@@ -1,5 +1,6 @@
 stages:
   - build
+  - pipelines-trigger
 
 build-latest:
   stage: build
@@ -35,4 +36,12 @@ build-branch:
         --build-arg "COMMIT=$CI_COMMIT_SHA" \
         --build-arg "VERSION=$CI_COMMIT_REF_SLUG"
   except:
+    - master
+
+trigger:
+  stage: pipelines-trigger
+  image: registry.gitlab.com/les-connecteurs/docker/alpine
+  script:
+    - "curl -X POST -F token=$TRIGGER_TOKEN_OPENDKIM -F ref=master https://gitlab.com/api/v4/projects/18276930/trigger/pipeline"
+  only:
     - master
