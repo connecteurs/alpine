@@ -56,17 +56,3 @@ build-curl:
         --build-arg "VERSION=$CI_COMMIT_REF_SLUG"
   only:
     - master
-
-trigger:
-  stage: pipelines-trigger
-  image: registry.gitlab.com/les-connecteurs/docker/alpine/curl
-  script:
-    - "curl -X POST -F token=$TRIGGER_TOKEN_APORTS -F ref=master https://gitlab.com/api/v4/projects/17124268/trigger/pipeline"
-    - "curl -X POST -F token=$TRIGGER_TOKEN_ABUILD -F ref=master https://gitlab.com/api/v4/projects/22441763/trigger/pipeline"
-    - "curl -X POST -F token=$TRIGGER_TOKEN_OPENDKIM -F ref=master https://gitlab.com/api/v4/projects/18276930/trigger/pipeline"
-    - "curl -X POST -F token=$TRIGGER_TOKEN_POSTFIX -F ref=master https://gitlab.com/api/v4/projects/17429911/trigger/pipeline"
-    - "curl -X POST -F token=$TRIGGER_TOKEN_CYRUS -F ref=master https://gitlab.com/api/v4/projects/17445676/trigger/pipeline"
-    - "curl -X POST -F token=$TRIGGER_TOKEN_ALPINE_BUILDREPO -F ref=master https://gitlab.com/api/v4/projects/17126951/trigger/pipeline"
-    - "curl -X POST -F token=$TRIGGER_TOKEN_DIRECTORY_INDEX -F ref=master https://gitlab.com/api/v4/projects/17165273/trigger/pipeline"
-  only:
-    - master
