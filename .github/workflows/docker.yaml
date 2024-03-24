@@ -43,6 +43,7 @@ jobs:
           images: "${{ env.DOCKER_IMAGE_BASE }}"
           tags: |
             type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
             type=semver,prefix=v,pattern={{version}}
             type=semver,prefix=v,pattern={{major}}.{{minor}}
             type=semver,prefix=v,pattern={{major}}
@@ -55,6 +56,7 @@ jobs:
           images: "${{ env.DOCKER_IMAGE_CURL }}"
           tags: |
             type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
             type=semver,prefix=v,pattern={{version}}
             type=semver,prefix=v,pattern={{major}}.{{minor}}
             type=semver,prefix=v,pattern={{major}}
