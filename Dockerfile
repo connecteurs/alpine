@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.19
 
 RUN wget https://pkgs-alpine.connecteu.rs/signing.rsa.pub \
   -O /etc/apk/keys/signing.rsa.pub
