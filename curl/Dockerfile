@@ -1,3 +1,3 @@
-FROM registry.gitlab.com/les-connecteurs/docker/alpine
+FROM ghcr.io/connecteurs/alpine
 
 RUN apk --no-cache add curl
